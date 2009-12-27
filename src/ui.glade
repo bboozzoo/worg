@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkMenu" id="popup-menu">
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkImageMenuItem" id="popup-menu-quit">
+        <property name="label">gtk-quit</property>
+        <property name="visible">True</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+      </object>
+    </child>
+  </object>
+</interface>
