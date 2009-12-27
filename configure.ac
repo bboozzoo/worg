@@ -8,13 +8,21 @@ AM_INIT_AUTOMAKE
 AC_PROG_CXX
 
 # Checks for libraries.
-PKG_CHECK_MODULES([GTKMM], [gtkmm-2.4])
-AC_SUBST([GTKMM_CFLAGS])
-AC_SUBST([GTKMM_LIBS])
+PKG_CHECK_MODULES([gtkmm], [gtkmm-2.4])
+AC_SUBST([GTKMM_CFLAGS], ["$gtkmm_CFLAGS"])
+AC_SUBST([GTKMM_LIBS], ["$gtkmm_LIBS"])
 
-PKG_CHECK_MODULES([SQLITE3], [sqlite3])
-AC_SUBST([SQLITE3_CFLAGS])
-AC_SUBST([SQLITE3_LIBS])
+PKG_CHECK_MODULES([glibmm], [glibmm-2.4])
+AC_SUBST([GLIBMM_CFLAGS], ["$glibmm_CFLAGS"])
+AC_SUBST([GLIBMM_LIBS], ["$glibmm_LIBS"])
+
+PKG_CHECK_MODULES([giomm], [giomm-2.4])
+AC_SUBST([GIOMM_CFLAGS], ["$giomm_CFLAGS"])
+AC_SUBST([GIOMM_LIBS], ["$giomm_LIBS"])
+
+PKG_CHECK_MODULES([sqlite3], [sqlite3])
+AC_SUBST([SQLITE3_CFLAGS], ["$sqlite3_CFLAGS"])
+AC_SUBST([SQLITE3_LIBS], ["$sqlite3_LIBS"])
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.

@@ -1,10 +1,27 @@
-bin_PROGRAMS = worg sqlist
+bin_PROGRAMS = worg sqlist client
 worg_SOURCES = main.cc
 worg_CXXFLAGS = $(GTKMM_CFLAGS) \
-				$(SQLITE3_CFLAGS)
+			  $(GLIBMM_CFLAGS) \
+			  $(SQLITE3_CFLAGS) \
+			  $(GIOMM_CFLAGS)
 worg_LDFLAGS = $(GTKMM_LIBS) \
-			   $(SQLITE3_LIBS)
+			   $(GLIBMM_LIBS) \
+			   $(SQLITE3_LIBS) \
+			   $(GIOMM_LIBS)
 
 sqlist_SOURCES = sqlist.cc
 sqlist_CXXFLAGS = $(SQLITE3_CFLAGS)
 sqlist_LDFLAGS = $(SQLITE3_LIBS)
+
+client_SOURCES = client.cc \
+				 db.cc \
+				 log.cc \
+				 application.cc
+client_CXXFLAGS = $(GTKMM_CFLAGS) \
+			  $(GLIBMM_CFLAGS) \
+			  $(SQLITE3_CFLAGS) \
+			  $(GIOMM_CFLAGS)
+client_LDFLAGS = $(GTKMM_LIBS) \
+			   $(GLIBMM_LIBS) \
+			   $(SQLITE3_LIBS) \
+			   $(GIOMM_LIBS)
