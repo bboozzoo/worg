@@ -5,16 +5,23 @@
 
 int main(int argc, char ** argv) 
 {
-    Gio::init();
-    log_level = 2;
-    LOG(0, "init DB");
-    DB::init();
-    LOG(0, "get instance");
-    DB * db = DB::instance();
+    try 
+    {
+        Gio::init();
+        Application::init();
+        log_level = 2;
+        LOG(0, "init DB");
+        DB::init();
+        LOG(0, "get instance");
+        db_sptr_t db = DB::instance();
 
-    Application::init();
-    Application::finish();
-    LOG(0, "finish");
-    DB::finish();
+        LOG(0, "finish");
+        DB::finish();
+        Application::finish();
+    } 
+    catch (std::exception & e)
+    {
+        std::cerr << "error: " << e.what() << std::endl;
+    }
     return 0;
 }

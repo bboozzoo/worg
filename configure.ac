@@ -8,6 +8,8 @@ AM_INIT_AUTOMAKE
 AC_PROG_CXX
 
 # Checks for libraries.
+AX_BOOST_BASE
+
 PKG_CHECK_MODULES([gtkmm], [gtkmm-2.4])
 AC_SUBST([GTKMM_CFLAGS], ["$gtkmm_CFLAGS"])
 AC_SUBST([GTKMM_LIBS], ["$gtkmm_LIBS"])
