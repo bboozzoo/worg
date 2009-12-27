@@ -23,7 +23,7 @@ UI::init(int argc, char ** argv)
         throw Error("UI already initialized", ERR_HERE);
     LOG(1, "UI create instance");
     m_instance = ui_sptr_t(new UI(argc, argv));
-
+    m_instance->init_gfx();
 }
 
 void
@@ -46,8 +46,56 @@ UI::run()
         throw Error("UI not initialized", ERR_HERE);
 
     LOG(0, "UI entering main loop");
-    Gtk::Window w;
-    Gtk::Main::run(w);
+    Gtk::Main::run();
     LOG(0, "UI main loop finished");
+}
+
+void 
+UI::quit()
+{
+    LOG(0, "UI quit");
+    Gtk::Main::quit();
+}
+
+void
+UI::init_gfx()
+{
+    m_icon = Gtk::StatusIcon::create_from_file("clock.svg");
+    m_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &UI::on_tray_icon_popup));
+    init_popup_menu();
+}
+
+void
+UI::init_popup_menu()
+{
+    try 
+    {
+        Glib::RefPtr<Gtk::Builder> menu_builder = Gtk::Builder::create_from_file("ui.glade", "popup-menu");
+
+        menu_builder->get_widget("popup-menu", m_popup_menu);
+
+        Gtk::MenuItem * quit_item = NULL;
+        menu_builder->get_widget("menu-quit", quit_item);
+        quit_item->signal_activate().connect(sigc::mem_fun(*this, &UI::on_tray_icon_quit));
+    }
+    catch (Glib::Exception & e)
+    {
+        LOG(0, "UI ERROR: " << e.what());
+        throw;
+    }
+}
+
+void
+UI::on_tray_icon_popup(guint button, guint32 time)
+{
+    LOG(1, "UI popup, button: " << button << " time: " << time);
+    m_popup_menu->popup(button, time);
+}
+
+void
+UI::on_tray_icon_quit()
+{
+    LOG(1, "UI popup, QUIT");
+    quit();
 }
 

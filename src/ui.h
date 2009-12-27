@@ -15,8 +15,17 @@ class UI
         void run();
     private:
         UI(int argc, char ** argv);
+        void init_gfx();
+        void init_popup_menu();
+        void on_tray_icon_popup(guint button, guint32 time);
+        void on_tray_icon_quit();
+        void quit();
 
-        static ui_sptr_t   m_instance;
-        Gtk::Main   m_kit;
+        static ui_sptr_t                m_instance;
+        Gtk::Main                       m_kit;
+        Glib::RefPtr<Gtk::StatusIcon>   m_icon;
+        Gtk::Menu *                     m_popup_menu;
 };
+
 #endif /* __UI_H__ */
+
