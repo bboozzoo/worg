@@ -16,7 +16,8 @@ sqlist_LDFLAGS = $(SQLITE3_LIBS)
 client_SOURCES = client.cc \
 				 db.cc \
 				 log.cc \
-				 application.cc
+				 application.cc \
+				 activity-model.cc
 client_CXXFLAGS = $(GTKMM_CFLAGS) \
 			  $(GLIBMM_CFLAGS) \
 			  $(SQLITE3_CFLAGS) \

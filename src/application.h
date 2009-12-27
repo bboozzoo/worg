@@ -1,7 +1,8 @@
 #ifndef __APPLICATION_H__
 #define __APPLICATION_H__
-#include "error.h"
 #include <boost/shared_ptr.hpp>
+#include "error.h"
+#include "activity-model.h"
 
 class Application;
 typedef boost::shared_ptr<Application> app_sptr_t;
@@ -20,6 +21,8 @@ class Application
 
         static app_sptr_t   m_instance;
         std::string         m_config_dir;
+        std::list<atmodel_sptr_t>   m_activity_types;
+        std::list<amodel_sptr_t>    m_activities;
 
 };
 

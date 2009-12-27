@@ -9,6 +9,9 @@
 #include "db-schema.h"
 #undef NEED_SCHEMA
 
+#define NEED_QUERY
+#include "db-query.h"
+#undef NEED_QUERY
 
 class DB_sqlite : public DB_interface
 {
@@ -120,11 +123,11 @@ DB::create_schema()
     try 
     {
         LOG(1, "creating activities table");
-        run_query(sch_create_acitivities_table);
+        run_query(sch_create_acitivities_table, NULL, NULL);
         LOG(1, "creating activity types table");
-        run_query(sch_create_acitivity_types_table);
+        run_query(sch_create_acitivity_types_table, NULL, NULL);
         LOG(1, "creating activities-types map table");
-        run_query(sch_create_activities_map_table);
+        run_query(sch_create_activities_map_table, NULL, NULL);
     }
     catch (Error & e)
     {
@@ -134,12 +137,18 @@ DB::create_schema()
 }
 
 void
-DB::run_query(const char * query)
+DB::run_query(const char * query, sqlite_clbk_f clbk_f, void * param)
 {
     char * err = NULL;
-    if (SQLITE_OK != sqlite3_exec(DBsq.m_sql3, query, NULL, NULL, &err)) 
+    int res = sqlite3_exec(DBsq.m_sql3, query, clbk_f, param, &err);
+    if (SQLITE_OK != res)
     {
-        throw Error(std::string("executing query failed").append(err), ERR_HERE);
+        if (SQLITE_ABORT == res)
+        {
+            LOG(1, "query terminated by callback");
+        }
+        else
+            throw Error(std::string("executing query failed: ").append(err), ERR_HERE);
     }
 }
 
@@ -148,4 +157,26 @@ DB::run_query_prepared(void * query_format)
 {
 
 }
+
+void
+DB::get_all_activities(std::list<amodel_sptr_t> & alist)
+{
+
+}
+
+static int 
+add_activity_type(void * param, int col_count, char ** val, char ** col_name) 
+{
+    for (int i = 0; i < col_count; i++) {
+        std::cout << "i: " << i << " val: " << ((val[i] != NULL) ? val[i] : "null") << " col: " << col_name[i] << std::endl;
+    }
+    return SQLITE_DONE;
+}
+
+void
+DB::get_all_activity_types(std::list<atmodel_sptr_t> & atlist)
+{
+    run_query(q_select_all_activity_types, add_activity_type, NULL);
+}
+
 
