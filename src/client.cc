@@ -7,8 +7,7 @@ int main(int argc, char ** argv)
 {
     try 
     {
-        Gio::init();
-        Application::init();
+        Application::init(argc, argv);
         log_level = 2;
         LOG(0, "init DB");
         DB::init();

@@ -10,9 +10,11 @@ class Application
 {
     public:
         ~Application();
-        static void init();
+        static void init(int argc, char ** argv);
         static void finish();
         static app_sptr_t instance();
+        void run();
+
         std::string get_config_dir();
         std::string get_db_file_path();
     private:

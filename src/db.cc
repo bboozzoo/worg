@@ -122,16 +122,16 @@ DB::create_schema()
     LOG(0, "DB creating schema");
     try 
     {
-        LOG(1, "creating activities table");
+        LOG(1, "DB creating activities table");
         run_query(sch_create_acitivities_table, NULL, NULL);
-        LOG(1, "creating activity types table");
+        LOG(1, "DB creating activity types table");
         run_query(sch_create_acitivity_types_table, NULL, NULL);
-        LOG(1, "creating activities-types map table");
+        LOG(1, "DB creating activities-types map table");
         run_query(sch_create_activities_map_table, NULL, NULL);
     }
     catch (Error & e)
     {
-        LOG(0, "creating schema failed");
+        LOG(0, "DB creating schema failed");
         throw;
     }
 }
@@ -145,7 +145,7 @@ DB::run_query(const char * query, sqlite_clbk_f clbk_f, void * param)
     {
         if (SQLITE_ABORT == res)
         {
-            LOG(1, "query terminated by callback");
+            LOG(1, "DB query terminated by callback");
         }
         else
             throw Error(std::string("executing query failed: ").append(err), ERR_HERE);
