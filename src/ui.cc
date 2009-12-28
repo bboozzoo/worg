@@ -85,11 +85,21 @@ UI::init_popup_menu()
     }
 }
 
+void 
+UI::on_tray_icon_position(int & x, int & y, bool & push_in)
+{
+    int ix, iy;
+    gboolean ipush_in;
+    LOG(1, "UI position popup menu");
+    gtk_status_icon_position_menu(m_popup_menu->gobj(), &x, &y, &ipush_in, m_icon->gobj());
+    push_in = (ipush_in == TRUE) ? true : false;
+}
+
 void
 UI::on_tray_icon_popup(guint button, guint32 time)
 {
     LOG(1, "UI popup, button: " << button << " time: " << time);
-    m_popup_menu->popup(button, time);
+    m_popup_menu->popup(sigc::mem_fun(*this, &UI::on_tray_icon_position), button, time);
 }
 
 void

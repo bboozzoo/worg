@@ -19,6 +19,7 @@ class UI
         void init_popup_menu();
         void on_tray_icon_popup(guint button, guint32 time);
         void on_tray_icon_quit();
+        void on_tray_icon_position(int & x, int & y, bool & push_in);
         void quit();
 
         static ui_sptr_t                m_instance;
