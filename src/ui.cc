@@ -70,7 +70,7 @@ UI::init_popup_menu()
 {
     try 
     {
-        Glib::RefPtr<Gtk::Builder> menu_builder = Gtk::Builder::create_from_file("ui.glade", "popup-menu");
+        Glib::RefPtr<Gtk::Builder> menu_builder = Gtk::Builder::create_from_file("ui-menu.glade", "popup-menu");
 
         menu_builder->get_widget("popup-menu", m_popup_menu);
 
