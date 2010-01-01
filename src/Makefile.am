@@ -5,7 +5,8 @@ worg_SOURCES = main.cc \
 			   log.cc \
 			   application.cc \
 			   activity-model.cc \
-			   ui.cc
+			   ui.cc \
+			   ui-popup-menu.cc
 
 worg_CXXFLAGS = $(GTKMM_CFLAGS) \
 			  $(GLIBMM_CFLAGS) \

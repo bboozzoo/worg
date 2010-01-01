@@ -30,6 +30,7 @@ void
 UI::finish()
 {
     LOG(1, "UI finish");
+    UIPopupMenu::finish();
     m_instance.reset();
 }
 
@@ -61,49 +62,19 @@ void
 UI::init_gfx()
 {
     m_icon = Gtk::StatusIcon::create_from_file("clock.svg");
-    m_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &UI::on_tray_icon_popup));
     init_popup_menu();
 }
 
 void
 UI::init_popup_menu()
 {
-    try 
-    {
-        Glib::RefPtr<Gtk::Builder> menu_builder = Gtk::Builder::create_from_file("ui-menu.glade", "popup-menu");
-
-        menu_builder->get_widget("popup-menu", m_popup_menu);
-
-        Gtk::MenuItem * quit_item = NULL;
-        menu_builder->get_widget("menu-quit", quit_item);
-        quit_item->signal_activate().connect(sigc::mem_fun(*this, &UI::on_tray_icon_quit));
-    }
-    catch (Glib::Exception & e)
-    {
-        LOG(0, "UI ERROR: " << e.what());
-        throw;
-    }
-}
-
-void 
-UI::on_tray_icon_position(int & x, int & y, bool & push_in)
-{
-    int ix, iy;
-    gboolean ipush_in;
-    LOG(1, "UI position popup menu");
-    gtk_status_icon_position_menu(m_popup_menu->gobj(), &x, &y, &ipush_in, m_icon->gobj());
-    push_in = (ipush_in == TRUE) ? true : false;
+    LOG(1, "UI init popup menu");
+    UIPopupMenu::init(m_icon);
+    UIPopupMenu::instance()->signal_quit().connect(sigc::mem_fun(*this, &UI::on_popup_menu_quit));
 }
 
 void
-UI::on_tray_icon_popup(guint button, guint32 time)
-{
-    LOG(1, "UI popup, button: " << button << " time: " << time);
-    m_popup_menu->popup(sigc::mem_fun(*this, &UI::on_tray_icon_position), button, time);
-}
-
-void
-UI::on_tray_icon_quit()
+UI::on_popup_menu_quit()
 {
     LOG(1, "UI popup, QUIT");
     quit();

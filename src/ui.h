@@ -2,6 +2,7 @@
 #define __UI_H__
 #include <gtkmm.h>
 #include <boost/shared_ptr.hpp>
+#include "ui-popup-menu.h"
 
 class UI;
 typedef boost::shared_ptr<UI> ui_sptr_t;
@@ -17,9 +18,7 @@ class UI
         UI(int argc, char ** argv);
         void init_gfx();
         void init_popup_menu();
-        void on_tray_icon_popup(guint button, guint32 time);
-        void on_tray_icon_quit();
-        void on_tray_icon_position(int & x, int & y, bool & push_in);
+        void on_popup_menu_quit();
         void quit();
 
         static ui_sptr_t                m_instance;
